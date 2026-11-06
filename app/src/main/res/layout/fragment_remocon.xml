@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/start_remocon_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/remocon_start" />
+            <Button
+                android:id="@+id/stop_remocon_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:enabled="false"
+                android:text="@string/remocon_stop" />
+            <Button
+                android:id="@+id/remocon_settings_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:contentDescription="@string/remocon_settings"
+                android:text="⋮" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/remocon_status_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="@string/remocon_model_loading"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/remocon_result_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:minHeight="64dp"
+            android:text="@string/remocon_result_placeholder"
+            android:textSize="20sp" />
+        <ProgressBar
+            android:id="@+id/remocon_audio_level"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:max="32767" />
+        <TextView
+            android:id="@+id/remocon_amplitude_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/amplitude_zero"
+            android:textSize="16sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/remocon_command_label"
+            android:textStyle="bold" />
+        <EditText
+            android:id="@+id/remocon_command_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/remocon_command_hint"
+            android:inputType="text"
+            android:singleLine="true" />
+        <Button
+            android:id="@+id/remocon_send_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:enabled="false"
+            android:text="@string/remocon_send" />
+    </LinearLayout>
+</ScrollView>

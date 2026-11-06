@@ -33,3 +33,7 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# hidden files for macOS
+._*
+.DS_Store

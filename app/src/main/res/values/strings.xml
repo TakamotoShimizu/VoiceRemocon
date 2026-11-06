@@ -1,0 +1,34 @@
+<resources>
+  <string name="app_name">VoiceRemocon</string>
+  <string name="amplitude">Amplitude: %1$d</string>
+  <string name="record_button_text">Record</string>
+  <string name="stop_button_text">Stop</string>
+  <string name="playback_button_text">Playback</string>
+  <string name="pause_button_text">Pause</string>
+  <string name="delete_button_text">Delete All Recordings</string>
+  <string name="start_button_text">Start</string>
+  <string name="recognise_button_text">Recognise</string>
+  <string name="remocon_start">Start</string>
+  <string name="remocon_stop">Stop</string>
+  <string name="remocon_settings">Remote settings</string>
+  <string name="remocon_model_loading">Preparing voice model…</string>
+  <string name="remocon_ready">Ready</string>
+  <string name="remocon_listening">Listening…</string>
+  <string name="remocon_result_received">Recognition complete. Check the command before sending.</string>
+  <string name="remocon_result_placeholder">Recognized text appears here</string>
+  <string name="remocon_command_label">Remote command</string>
+  <string name="remocon_command_hint">send SONY 電源 1 100</string>
+  <string name="remocon_send">Send command</string>
+  <string name="remocon_activity_error">Remocon screen requires VoiceRemocon activity.</string>
+  <string name="remocon_configure_host">Set the Raspberry Pi address in Remote settings.</string>
+  <string name="remocon_host_hint">Raspberry Pi IP address or host name</string>
+  <string name="remocon_port_hint">TCP port</string>
+  <string name="remocon_settings_message">Enter the Raspberry Pi address and TCP port from the device configuration.</string>
+  <string name="remocon_invalid_settings">Enter a host and a port from 1 to 65535.</string>
+  <string name="remocon_invalid_command">Use: send SONY|OTHERS function repeat gap (repeat 1–20, gap 20–2000 ms).</string>
+  <string name="remocon_sending">Sending command…</string>
+  <string name="remocon_ack">Remote command acknowledged.</string>
+  <string name="remocon_nack">Remote rejected the command: %1$s</string>
+  <string name="remocon_network_error">Could not communicate with remote: %1$s</string>
+  <string name="amplitude_zero">Amplitude: 0</string>
+</resources>
