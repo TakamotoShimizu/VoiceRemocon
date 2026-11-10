@@ -10,6 +10,7 @@
   <string name="recognise_button_text">Recognise</string>
   <string name="remocon_start">Start</string>
   <string name="remocon_stop">Stop</string>
+  <string name="remocon_quit">Quit</string>
   <string name="remocon_settings">Remote settings</string>
   <string name="remocon_model_loading">Preparing voice model…</string>
   <string name="remocon_ready">Ready</string>
@@ -27,7 +28,9 @@
   <string name="remocon_invalid_settings">Enter a host and a port from 1 to 65535.</string>
   <string name="remocon_invalid_command">Use: send SONY|OTHERS function repeat gap (repeat 1–20, gap 20–2000 ms).</string>
   <string name="remocon_sending">Sending command…</string>
+  <string name="remocon_quitting">Sending quit command…</string>
   <string name="remocon_ack">Remote command acknowledged.</string>
+  <string name="remocon_quit_ack">Remote application acknowledged quit.</string>
   <string name="remocon_nack">Remote rejected the command: %1$s</string>
   <string name="remocon_network_error">Could not communicate with remote: %1$s</string>
   <string name="amplitude_zero">Amplitude: 0</string>

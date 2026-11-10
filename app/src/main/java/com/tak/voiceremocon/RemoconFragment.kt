@@ -35,6 +35,7 @@ private const val PREF_PORT = "port"
 class RemoconFragment : Fragment() {
   private lateinit var startButton: Button
   private lateinit var stopButton: Button
+  private lateinit var quitButton: Button
   private lateinit var settingsButton: Button
   private lateinit var sendButton: Button
   private lateinit var resultText: TextView
@@ -73,6 +74,7 @@ class RemoconFragment : Fragment() {
     super.onViewCreated(view, savedInstanceState)
     startButton = view.findViewById(R.id.start_remocon_button)
     stopButton = view.findViewById(R.id.stop_remocon_button)
+    quitButton = view.findViewById(R.id.quit_remocon_button)
     settingsButton = view.findViewById(R.id.remocon_settings_button)
     sendButton = view.findViewById(R.id.remocon_send_button)
     resultText = view.findViewById(R.id.remocon_result_text)
@@ -147,6 +149,7 @@ class RemoconFragment : Fragment() {
     }
     settingsButton.setOnClickListener { showSettingsDialog() }
     sendButton.setOnClickListener { sendCommand() }
+    quitButton.setOnClickListener { quitRemote() }
     commandInput.addTextChangedListener(object : TextWatcher {
       override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
       override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = updateControls()
@@ -216,6 +219,7 @@ class RemoconFragment : Fragment() {
     startButton.isEnabled = modelReady && !recognizing
     stopButton.isEnabled = modelReady && recognizing
     sendButton.isEnabled = valid && !recognizing
+    quitButton.isEnabled = !recognizing
   }
 
   /** リモコンの接続先ホストとポートを編集するダイアログを表示します。 */
@@ -275,10 +279,33 @@ class RemoconFragment : Fragment() {
     sendButton.isEnabled = false
     statusText.setText(R.string.remocon_sending)
     viewLifecycleOwner.lifecycleScope.launch {
-      val response = withContext(Dispatchers.IO) { sendTcpCommand(address, port, command) }
+      val response = withContext(Dispatchers.IO) { sendTcpCommand(address, port, command.wireText) }
       if (!isAdded) return@launch
       when (response) {
         is SendResult.Ack -> statusText.setText(R.string.remocon_ack)
+        is SendResult.Nack -> statusText.text = getString(R.string.remocon_nack, response.message)
+        is SendResult.Error -> statusText.text = getString(R.string.remocon_network_error, response.message)
+      }
+      updateControls()
+    }
+  }
+
+  /** 学習リモコン部へquitコマンドを送り、ACKを画面に表示します。 */
+  private fun quitRemote() {
+    val prefs = requireContext().getSharedPreferences(PREFS_REMOCON, Context.MODE_PRIVATE)
+    val address = prefs.getString(PREF_HOST, "").orEmpty()
+    val port = prefs.getInt(PREF_PORT, 0)
+    if (address.isBlank() || port !in 1..65535) {
+      showSettingsDialog()
+      return
+    }
+    quitButton.isEnabled = false
+    statusText.setText(R.string.remocon_quitting)
+    viewLifecycleOwner.lifecycleScope.launch {
+      val response = withContext(Dispatchers.IO) { sendTcpCommand(address, port, "quit") }
+      if (!isAdded) return@launch
+      when (response) {
+        is SendResult.Ack -> statusText.setText(R.string.remocon_quit_ack)
         is SendResult.Nack -> statusText.text = getString(R.string.remocon_nack, response.message)
         is SendResult.Error -> statusText.text = getString(R.string.remocon_network_error, response.message)
       }
@@ -297,13 +324,13 @@ class RemoconFragment : Fragment() {
   }
 
   /** IOスレッドからリモコンへコマンドを送り、ACK/NACKまたは通信エラーを返します。 */
-  private fun sendTcpCommand(host: String, port: Int, command: RemoteCommand): SendResult =
+  private fun sendTcpCommand(host: String, port: Int, command: String): SendResult =
     try {
       Socket().use { socket ->
         socket.connect(InetSocketAddress(host, port), 3000)
         socket.soTimeout = 3000
         socket.getOutputStream().bufferedWriter(Charsets.UTF_8).use { writer ->
-          writer.write(command.wireText)
+          writer.write(command)
           writer.newLine()
           writer.flush()
         }

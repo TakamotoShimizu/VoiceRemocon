@@ -208,6 +208,7 @@ class VoiceRemocon : AppCompatActivity() {
         1 -> "Generic"
         2 -> "Recognition"
         3 -> "Learning"
+        4 -> "Command List"
         else -> null
       }
     }.attach()
@@ -226,7 +227,7 @@ class VoiceRemocon : AppCompatActivity() {
   }
 
   private class ViewPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
-    override fun getItemCount(): Int = 4
+    override fun getItemCount(): Int = 5
 
     override fun createFragment(position: Int): Fragment {
       return when (position) {
@@ -234,6 +235,7 @@ class VoiceRemocon : AppCompatActivity() {
         1 -> GenericControlsFragment()
         2 -> RecognitionFragment()
         3 -> LearningFragment()
+        4 -> CommandListFragment()
         else -> throw IllegalStateException("Invalid position: $position")
       }
     }

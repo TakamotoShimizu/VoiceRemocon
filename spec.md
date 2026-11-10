@@ -35,6 +35,19 @@ classDiagram
         -sendTcpCommand(host, port, command)
     }
 
+    class CommandListFragment {
+        <<Fragment>>
+        -loading Boolean
+        +onCreateView()
+        +onViewCreated()
+        -createContentView()
+        -loadCommandList()
+        -requestCommandList(host, port)
+        -parseCommandList(json)
+        -optStringIgnoreCase(key)
+        -addEntry(text)
+    }
+
     class GenericControlsFragment {
         <<Fragment>>
         +録音・再生・停止・一時停止
@@ -152,16 +165,20 @@ classDiagram
     VoiceRemoconPageAdapter ..> GenericControlsFragment : position 1
     VoiceRemoconPageAdapter ..> RecognitionFragment : position 2
     VoiceRemoconPageAdapter ..> LearningFragment : position 3
+    VoiceRemoconPageAdapter ..> CommandListFragment : position 4
 
     ViewPagerAdapter ..> RemoconFragment : position 0
     ViewPagerAdapter ..> GenericControlsFragment : position 1
     ViewPagerAdapter ..> RecognitionFragment : position 2
     ViewPagerAdapter ..> LearningFragment : position 3
+    ViewPagerAdapter ..> CommandListFragment : position 4
 
     RemoconFragment ..> VoiceRemocon : 音声認識と音量状態を利用
     GenericControlsFragment ..> VoiceRemocon : 操作を委譲
     RecognitionFragment ..> VoiceRemocon : 操作と状態を参照
     LearningFragment ..> VoiceRemocon : 音声認識操作と入力振幅を利用
+    CommandListFragment ..> SharedPreferences : 接続先ホスト・ポートを取得
+    CommandListFragment ..> JSONObject : JSON形式の一覧を解析
 
     VoiceRemocon *-- MediaRecordHandler
     VoiceRemocon *-- MediaPlayHandler
@@ -186,4 +203,4 @@ classDiagram
 
 ## 補足
 
-`VoiceRemocon` 内部とトップレベルの2つの Pager Adapter が存在します。Activity は内部 Adapter を使って4画面を表示します。`RemoconFragment` と `LearningFragment` は同じ SharedPreferences の接続先設定（ホスト・ポート）を参照します。学習画面はTCPで `startLearning` の `WaitForLearning` / `LearningComplete` / `LearningTimedOut` を受け取り、音声認識後に `storeCode` を送信します。
+`VoiceRemocon` 内部とトップレベルの2つの Pager Adapter が存在します。Activity は Pager Adapter を使って5画面を表示します。`RemoconFragment` と `LearningFragment` は同じ SharedPreferences の接続先設定（ホスト・ポート）を参照します。学習画面はTCPで `startLearning` の `WaitForLearning` / `LearningComplete` / `LearningTimedOut` を受け取り、音声認識後に `storeCode` を送信します。

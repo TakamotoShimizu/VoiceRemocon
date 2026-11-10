@@ -26,6 +26,12 @@
                 android:enabled="false"
                 android:text="@string/remocon_stop" />
             <Button
+                android:id="@+id/quit_remocon_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="@string/remocon_quit" />
+            <Button
                 android:id="@+id/remocon_settings_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
